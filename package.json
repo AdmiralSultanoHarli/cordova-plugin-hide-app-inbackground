@@ -1,0 +1,30 @@
+{
+  "name": "cordova-plugin-hide-app-inbackground",
+  "version": "1.0.0",
+  "description": "Hide your app when its on background in Android and iOS",
+  "cordova": {
+    "id": "cordova-plugin-hide-app-inbackground",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AdmiralSultanoHarli/cordova-plugin-hide-app-inbackground.git"
+  },
+  "keywords": [
+    "blur",
+    "hide",
+    "cordova",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "author": "Admiral Sultano Harly <giordano2010@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AdmiralSultanoHarli/cordova-plugin-hide-app-inbackground/issues"
+  },
+  "homepage": "https://github.com/AdmiralSultanoHarli/cordova-plugin-hide-app-inbackground#readme"
+}

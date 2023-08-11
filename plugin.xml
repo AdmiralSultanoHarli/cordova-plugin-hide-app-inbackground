@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-hide-app-inbackground" version="1.0.0">
+
+	<name>HideAppInBackgroundPlugin</name>
+	<description>Hide your app when its on background in Android and iOS</description>
+	<license>MIT</license>
+
+  <js-module src="www/hideAppInBackground.js" name="HideAppInBackground">
+        <clobbers target="window.plugins.hideAppInBackground"/>
+    </js-module>
+
+	<platform name="android">
+
+    <config-file parent="/*" target="res/xml/config.xml">
+      <feature name="HideAppInBackground">
+        <param name="android-package" value="com.mirdev.hideippinbackground.HideAppInBackgroundPlugin"/>
+        <param name="onload" value="true" />
+      </feature>
+    </config-file>
+
+		<source-file src="src/android/HideAppInBackgroundPlugin.java" target-dir="src/com/mirdev/hideippinbackground"/>
+	</platform>
+
+	<platform name="ios">
+
+    <config-file parent="/*" target="config.xml">
+      <feature name="HideAppInBackground">
+        <param name="ios-package" value="HideAppInBackgroundPlugin"/>
+        <param name="onload" value="true" />
+      </feature>
+    </config-file>
+
+		<header-file src="src/ios/HideAppInBackgroundPlugin.h"/>
+		<source-file src="src/ios/HideAppInBackgroundPlugin.m"/>
+	</platform>
+</plugin>
