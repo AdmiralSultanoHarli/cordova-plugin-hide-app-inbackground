@@ -1,6 +1,6 @@
 # cordova-plugin-hide-app-inbackground
 
-This is a cordova plugin to enable/disable hiding app on background in android and ios 
+This is a cordova plugin to enable/disable hiding app on background in android and ios (Mobile)
 
 ## Supported Platforms
 
