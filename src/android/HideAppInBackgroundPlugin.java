@@ -17,6 +17,7 @@ import org.json.JSONException;
 public class HideAppInBackgroundPlugin extends CordovaPlugin implements ViewTreeObserver.OnWindowFocusChangeListener{
     private com.mirdev.hideippinbackground.HideAppInBackgroundPlugin mContext;
     public static CordovaWebView mWebView;
+    protected CallbackContext context;
     boolean isHideEnabled = false;
 
     @Override
@@ -33,6 +34,7 @@ public class HideAppInBackgroundPlugin extends CordovaPlugin implements ViewTree
             int color = Color.parseColor("#FFFFFF");
             Drawable drawable = new ColorDrawable(color);
             if (hasFocus) {
+                context.sendPluginResult(createPluginResult(true));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                     this.webView.getView().setRenderEffect(null);
                 } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
@@ -41,6 +43,7 @@ public class HideAppInBackgroundPlugin extends CordovaPlugin implements ViewTree
                     this.webView.getView().setVisibility(View.VISIBLE);
                 }
             } else {
+                context.sendPluginResult(createPluginResult(false));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                     this.webView.getView().setRenderEffect(
                             RenderEffect.createBlurEffect(
@@ -87,10 +90,23 @@ public class HideAppInBackgroundPlugin extends CordovaPlugin implements ViewTree
                 }
             });
             return true;
+        } else if (action.equals("listen")) {
+            mContext.cordova.getActivity().runOnUiThread(new Runnable() {
+                public void run() {
+                    context = callbackContext;
+                }
+            });
+            return true;
         }
         else{
             return false;
         }
 
+    }
+
+    public PluginResult createPluginResult(boolean message) {
+        PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, message);
+        pluginResult.setKeepCallback(true); // keep callback
+        return pluginResult;
     }
 }
