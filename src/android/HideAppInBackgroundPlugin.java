@@ -19,6 +19,7 @@ public class HideAppInBackgroundPlugin extends CordovaPlugin implements ViewTree
     public static CordovaWebView mWebView;
     protected CallbackContext context;
     boolean isHideEnabled = false;
+    boolean isListenEnabled = false;
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
@@ -30,11 +31,17 @@ public class HideAppInBackgroundPlugin extends CordovaPlugin implements ViewTree
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
+        if (isListenEnabled) {
+            if (hasFocus) {
+                this.context.sendPluginResult(createPluginResult(true));
+            } else {
+                this.context.sendPluginResult(createPluginResult(false));
+            }
+        }
         if (isHideEnabled) {
             int color = Color.parseColor("#FFFFFF");
             Drawable drawable = new ColorDrawable(color);
             if (hasFocus) {
-                context.sendPluginResult(createPluginResult(true));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                     this.webView.getView().setRenderEffect(null);
                 } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
@@ -43,7 +50,6 @@ public class HideAppInBackgroundPlugin extends CordovaPlugin implements ViewTree
                     this.webView.getView().setVisibility(View.VISIBLE);
                 }
             } else {
-                context.sendPluginResult(createPluginResult(false));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                     this.webView.getView().setRenderEffect(
                             RenderEffect.createBlurEffect(
@@ -91,9 +97,10 @@ public class HideAppInBackgroundPlugin extends CordovaPlugin implements ViewTree
             });
             return true;
         } else if (action.equals("listen")) {
+            this.context = callbackContext;
             mContext.cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() {
-                    context = callbackContext;
+                    isListenEnabled = true;
                 }
             });
             return true;
